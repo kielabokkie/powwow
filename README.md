@@ -10,7 +10,7 @@ Copy .env.js.example to .env.js:
 cp .env.js.example .env.js
 ```
 
-Now set the `API_URL` and `API_KEY` to match your server.
+Open the `.env.js` file and set the `API_URL` and `API_KEY` to match your server.
 
 ## Build Setup
 
