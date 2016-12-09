@@ -23,7 +23,6 @@ export default {
   },
 
   created () {
-    console.log(process.env.TEST)
     this.$http.get(process.env.API_URL + '/zones')
       .then(response => {
         this.zones = response.body
