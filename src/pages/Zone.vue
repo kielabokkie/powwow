@@ -1,13 +1,13 @@
 <template>
   <div class="page-wrapper" id="zone-wrapper" v-if="zone">
     <el-breadcrumb separator="/">
-      <el-breadcrumb-item :to="{ path: '/' }">zones</el-breadcrumb-item>
+      <el-breadcrumb-item :to="{ path: '/' }">home</el-breadcrumb-item>
       <el-breadcrumb-item>{{ zone.name }}</el-breadcrumb-item>
     </el-breadcrumb>
 
     <h1>{{ zone.name }}</h1>
 
-    <template>
+    <template v-if="records">
       <el-table
         :data="records"
         border
