@@ -4,7 +4,7 @@
     <ul class="zones-list" v-if="zones">
       <li class="list-item" v-for="zone in zones">
         <span>
-          <router-link :to="{ name: 'zone', params: { id: zone.name }}" class="title">{{ zone.name }}</router-link>
+          <router-link :to="{ name: 'zone', params: { id: zone.id }}" class="title">{{ zone.name }}</router-link>
         </span>
       </li>
     </ul>

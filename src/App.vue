@@ -23,7 +23,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 .page-wrapper {
-  margin: 10px;
+  margin: 20px;
   ul {
     list-style: none;
   }

@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueResource from 'vue-resource'
 import VueRouter from 'vue-router'
 import ElementUI from 'element-ui'
+import locale from 'element-ui/lib/locale/lang/en'
 import 'element-ui/lib/theme-default/index.css'
 
 import App from './App'
@@ -11,7 +12,7 @@ import routes from './routes'
 
 Vue.use(VueResource)
 Vue.use(VueRouter)
-Vue.use(ElementUI)
+Vue.use(ElementUI, { locale })
 
 Vue.component('app', App)
 

@@ -5,6 +5,7 @@
     <template>
       <el-table
         :data="records"
+        border
         style="width: 100%">
         <el-table-column
           prop="name"
@@ -33,13 +34,21 @@
       </el-table>
     </template>
 
+    <record-form :zone="zone.id" @updateRecords="onUpdateRecords"></record-form>
+
     <!-- <pre>{{ $data }}</pre> -->
   </div>
 </template>
 
 <script>
+import RecordForm from './../components/RecordForm'
+
 export default {
   name: 'zone',
+
+  components: {
+    RecordForm
+  },
 
   data () {
     return {
@@ -49,29 +58,41 @@ export default {
   },
 
   created () {
-    this.$http.get(process.env.API_URL + '/zones/' + this.$route.params.id)
-      .then(response => {
-        let zone = response.body
+    this.fetchRecords()
+  },
 
-        for (var i = zone.rrsets.length - 1; i >= 0; i--) {
-          let recordSet = zone.rrsets[i]
+  methods: {
+    fetchRecords: function () {
+      this.$http.get(process.env.API_URL + '/zones/' + this.$route.params.id)
+        .then(response => {
+          this.records = []
 
-          for (var x = recordSet.records.length - 1; x >= 0; x--) {
-            let record = recordSet.records[x]
+          let zone = response.body
 
-            var object = {
-              name: recordSet.name,
-              type: recordSet.type,
-              ttl: recordSet.ttl,
-              content: record.content,
-              disabled: record.disabled
+          for (var i = zone.rrsets.length - 1; i >= 0; i--) {
+            let recordSet = zone.rrsets[i]
+
+            for (var x = recordSet.records.length - 1; x >= 0; x--) {
+              let record = recordSet.records[x]
+
+              var object = {
+                name: recordSet.name,
+                type: recordSet.type,
+                ttl: recordSet.ttl,
+                content: record.content,
+                disabled: record.disabled
+              }
+
+              this.records.push(object)
             }
-
-            this.records.push(object)
           }
-        }
-        this.zone = response.body
-      })
+          this.zone = response.body
+        })
+    },
+    onUpdateRecords: function () {
+      // Refresh records
+      this.fetchRecords()
+    }
   }
 }
 </script>
