@@ -19,10 +19,10 @@
           </el-select>
         </el-form-item>
         <el-form-item label="TTL" :label-width="formLabelWidth">
-          <el-input v-model="form.ttl" auto-complete="off"></el-input>
+          <el-input v-model="form.ttl" placeholder="e.g. 3600" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="Content" :label-width="formLabelWidth">
-          <el-input v-model="form.records[0].content" auto-complete="off"></el-input>
+          <el-input v-model="form.records[0].content" placeholder="e.g. 198.51.100.0" auto-complete="off"></el-input>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
@@ -50,11 +50,11 @@ export default {
       form: {
         name: this.zone,
         type: 'A',
-        ttl: 86400,
+        ttl: null,
         changetype: 'REPLACE',
         records: [
           {
-            content: '192.0.5.4',
+            content: '',
             disabled: false
           }
         ]
@@ -71,10 +71,15 @@ export default {
           // Notify event listeners that records have been updated
           this.$emit('updateRecords')
 
+          // Reset the local form to the defaults
+          this.form.name = this.zone
+          this.form.type = 'A'
+          this.form.records[0].content = ''
+
           // Notify user of successful update
           this.$message({
-            message: 'Record added successfully',
-            type: 'success'
+            type: 'success',
+            message: 'Record added successfully'
           })
         })
     }

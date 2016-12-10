@@ -10,26 +10,30 @@
         <el-table-column
           prop="name"
           label="Name"
-          width="180">
+          width="200">
         </el-table-column>
         <el-table-column
           prop="type"
           label="Type"
-          width="80">
+          width="100">
         </el-table-column>
         <el-table-column
           prop="ttl"
           label="TTL"
-          width="80">
+          width="100">
         </el-table-column>
         <el-table-column
           prop="content"
-          label="Content"
-          width="500">
+          label="Content">
         </el-table-column>
         <el-table-column
-          prop="disabled"
-          label="Disabled">
+          inline-template
+          :context="_self"
+          label="Operations"
+          width="120">
+          <span>
+            <el-button @click="handleDelete(row)" size="small" type="danger">Delete</el-button>
+          </span>
         </el-table-column>
       </el-table>
     </template>
@@ -92,6 +96,35 @@ export default {
     onUpdateRecords: function () {
       // Refresh records
       this.fetchRecords()
+    },
+    handleDelete: function (row) {
+      this.$confirm('Are you sure you want to delete this record?', 'Warning', {
+        confirmButtonText: 'Yes',
+        cancelButtonText: 'No'
+        // type: 'warning'
+      }).then(() => {
+        let record = {
+          name: row.name,
+          type: row.type,
+          changetype: 'DELETE'
+        }
+
+        let data = {rrsets: [record]}
+
+        this.$http.patch(process.env.API_URL + '/zones/' + this.zone.id, data)
+          .then(response => {
+            // Fetch the updated records
+            this.fetchRecords()
+
+            // Notify user of successful update
+            this.$message({
+              type: 'success',
+              message: 'Record deleted successfully'
+            })
+          })
+      }).catch(() => {
+        // Don't do a thing
+      })
     }
   }
 }
